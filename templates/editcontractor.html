@@ -27,21 +27,13 @@
             <td>{{i.specialisation}}</td>
             <td>{{i.experience}}</td>
             
-          
-          <td>
-            <a href="DeleteContractor/{{i.login.id}}">delete</a>
-            <a href="DeleteContractor/{{i.login.id}}">edit</a>
-        </td>
+            <TD><a href="#">view</a></TD>
+          <td><a href="DeleteContractor/{{i.login.id}}">delete</a></td>
             
             
 
         </tr>
          {% endfor %}
-         <tr colspan="5" >
-            <td>
-                <a href="/addcontactor">add</a>
-            </td>
-         </tr>
     </table>
 </body>
 </html>

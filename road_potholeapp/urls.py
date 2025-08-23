@@ -22,14 +22,19 @@ from road_potholeapp.views import *
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('adminview',AdminhomeView.as_view(),name='adminview'),
-    path('login',LoginView.as_view(),name='login'),
+    path('',LoginView.as_view(),name='login'),
     path('user',UserView.as_view(),name='user'),
+    path('DeleteUser/<int:lid>',DeleteUser.as_view(),name='DeleteUser'),
     path('contractor',ContractorView.as_view(),name='contractor'),
+    path('addcontactor',AddContactorView.as_view(),name='addcontactor'),
+    path('DeleteContractor/<int:lid>',DeleteContractor.as_view(),name='DeleteContractor'),
     path('pothole',potholeView.as_view(),name='pothole'),
     path('Feedback',FeedbackView.as_view(),name='Feedback'),
     path('complaint',ComplaintView.as_view(),name='complaint'),
     path('workassign',WorkassignView.as_view(),name='Workassign'),
     path('issues',IssuesView.as_view(),name='issues'),
+    path('reply/<int:id>',ReplyView.as_view(),name='reply'),
+    
 
 
 

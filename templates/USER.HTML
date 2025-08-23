@@ -15,23 +15,23 @@
             <th>GENDER</th>
             <th>EMAIL</th>
             <th>LOCATION</th>
-            <th>LOGIN</th>
         <TH>PHONE</TH>
         </tr>
+        {% for i in val %}
         <tr>
+            <td>{{ i.name }}</td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <TD></TD>
-            <td><a href="#">delete</a></td>
-            <td><a href="#">login</a></td>
+            <td>{{i.age }}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.location}}</td>
+            <td>{{i.phone}}</td>
+           <td><a href="DeleteUser/{{i.login.id}}">delete</a></td>
+           
             
 
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>

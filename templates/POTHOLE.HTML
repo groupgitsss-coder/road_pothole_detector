@@ -12,17 +12,19 @@
             <th>LATITUDE</th>
             <th>LONGITUDE</th>
             <th>DATE</th>
-            <th></th>
+            
         
         </tr>
+        {% for i in val %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><a href="#">USER</a></td>
+            <td>{{i.latitude}}</td>
+            <td>{{i.longitude}}</td>
+            <td>{{i.date}}</td>
+           
             
 
         </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
