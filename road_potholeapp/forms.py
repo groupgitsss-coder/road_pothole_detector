@@ -15,7 +15,7 @@ class Usertable(ModelForm):
 class Contractorform(ModelForm):
     class Meta:
         model=Contractortable
-        fields=['name','place','phone','email','specialisation','experience','login']
+        fields=['name','place','phone','email','specialisation','experience']
 
 class Potholetable(ModelForm):
     class Meta:

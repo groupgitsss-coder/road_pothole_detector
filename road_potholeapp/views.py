@@ -15,6 +15,8 @@ class LoginView(View):
         obj=Logintable.objects.get(username=username,password=password)
         if obj.Usertype=='admin':
             return HttpResponse('''<script>alert('login successful');window.location='/adminview'</script>''')
+        elif obj.Usertype=='Contractor':
+            return HttpResponse('''<script>alert('login successful');window.location='/contractorhome'</script>''')
         
     
 class UserView(View):
@@ -38,6 +40,17 @@ class DeleteContractor(View):
         obj = Logintable.objects.get(id=lid)
         obj.delete()
         return redirect('contractor')
+    
+class EditContractor(View):
+    def get(self,request, id):
+        obj = Contractortable.objects.get(id=id)
+        return render(request, "editcontractor.html", {'val': obj})
+    def post(self, request, id):
+        obj = Contractortable.objects.get(id=id)
+        form = Contractorform(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('contractor')
     
 class potholeView(View):
     def get(self,request):
@@ -91,12 +104,33 @@ class ReplyView(View):
         if r.is_valid():
             r.save()
             return redirect('complaint')
-            
+        
+class ContractorhomeView(View):
+    def get(self,request):
+        return render(request,'contractorhome.html')
+    
+class AssignedworksView(View):
+    def get(self,request):
+        return redirect('assignedworkhome')
+    
+class UpdateworkView(View):
+    def get(self,request):
+        return redirect('updatework')
+    
+class SendcomplainView(View):
+    def get(self,request):
+        return redirect('sendcomplain')
+    
+class AssignedworkView(View):
+    def get(self,request):
+        return redirect('assignedwork')
 
+class ContractorcomplaintView(View):
+    def get(self,request):
+        return redirect('contractorcomplaint.html')
 
     
     
-
 
     
 

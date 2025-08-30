@@ -28,12 +28,16 @@ urlpatterns = [
     path('contractor',ContractorView.as_view(),name='contractor'),
     path('addcontactor',AddContactorView.as_view(),name='addcontactor'),
     path('DeleteContractor/<int:lid>',DeleteContractor.as_view(),name='DeleteContractor'),
+    path('DeleteContractor/<int:lid>',DeleteContractor.as_view(),name='DeleteContraDeleteContractorctor'),
     path('pothole',potholeView.as_view(),name='pothole'),
     path('Feedback',FeedbackView.as_view(),name='Feedback'),
     path('complaint',ComplaintView.as_view(),name='complaint'),
     path('workassign',WorkassignView.as_view(),name='Workassign'),
     path('issues',IssuesView.as_view(),name='issues'),
     path('reply/<int:id>',ReplyView.as_view(),name='reply'),
+    path('EditContractor/<int:id>',EditContractor.as_view(),name='EditContractor'),
+    path('contractorhome',ContractorhomeView.as_view(),name='contractorhome'),
+    path('Contractorcomplaint',ContractorcomplaintView.as_view(),name='Contractorcomplaint'),
     
 
 

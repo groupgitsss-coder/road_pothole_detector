@@ -1,39 +1,49 @@
-<html>
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <table border="1">
-        <tr>
-            <th>NAME</th>
-            <th>PLACE</th>
-            <th>PHONE</th>
-            <th>EMAIL</th>
-            <th>SPECIALISATION</th>
-            <th>EXPERIENCES</th>
-           
-        
-        </tr>
-         {% for i in val %}
-        <tr>
-            <td>{{i.name}}</td>
-            <td>{{i.place}}</td>
-            <td>{{i.phone}}</td>
-            <td>{{i.email}}</td>
-            <td>{{i.specialisation}}</td>
-            <td>{{i.experience}}</td>
+    <center>
+    <form method="post">
+        <table>
+            {% csrf_token %}
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="name" value="{{ val.name}}"></td>
+            </tr>
+            <tr>
+                    <td>place</td>
+                    <td><input type="text" name="place" value="{{val.place}}"></td>
+            </tr>
+             <tr>
+                    <td>phone</td>
+                    <td><input type="text" name="phone" value="{{val.phone}}"></td>
+            </tr>
+             <tr>
+                    <td>email</td>
+                    <td><input type="text" name="email" value="{{val.email}}"></td>
+            </tr>
+         
+             <tr>
+                    <td>specialisation</td>
+                    <td><input type="text" name="specialisation" value="{{val.specialisation}}"></td>
+            </tr>
+             <tr>
+                    <td>experience</td>
+                    <td><input type="text" name="experience" value="{{val.experience}}"></td>
+            </tr>
+             <tr><td>  <input type="submit" value="update"><br><br></td></tr>
             
-            <TD><a href="#">view</a></TD>
-          <td><a href="DeleteContractor/{{i.login.id}}">delete</a></td>
-            
-            
+                    
+         
 
-        </tr>
-         {% endfor %}
-    </table>
+        </table>
+    </form>
 </body>
+</html></center>
+
+</html>
 </html>
