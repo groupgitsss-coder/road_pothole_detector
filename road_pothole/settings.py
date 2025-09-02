@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'road_potholeapp'
+    'road_potholeapp',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

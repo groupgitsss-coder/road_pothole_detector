@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
+from road_potholeapp.serializer import Loginserializer, Userserializer
 from road_potholeapp.forms import *
 from road_potholeapp.models import *
 
@@ -15,7 +16,7 @@ class LoginView(View):
         obj=Logintable.objects.get(username=username,password=password)
         if obj.Usertype=='admin':
             return HttpResponse('''<script>alert('login successful');window.location='/adminview'</script>''')
-        elif obj.Usertype=='Contractor':
+        elif obj.Usertype=='contractor':
             return HttpResponse('''<script>alert('login successful');window.location='/contractorhome'</script>''')
         
     
@@ -128,7 +129,64 @@ class AssignedworkView(View):
 class ContractorcomplaintView(View):
     def get(self,request):
         return redirect('contractorcomplaint.html')
+    
 
+
+    # /////////////////////////////////////////////////////////// API /////////////////////////////////////////////////////////
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
+
+class studentreg(APIView):
+    def post(self, request):
+        print('==============================',request.data)
+        reg_serial=Userserializer(data=request.data)
+        login_serial=Loginserializer(data=request.data)
+
+        regvalid=reg_serial.is_vaqlid()
+        loginvalid=login_serial.is_valid()
+
+        if regvalid and loginvalid:
+            login = login_serial.save(user_type='student')
+            reg_serial.save(LOGINID=login)
+            return Response({'message':'Registration successful'}, status=HTTP_200_OK)
+        else:
+            return Response({'Registration error': reg_serial.errors if not regvalid else None,
+                             'Login error': login_serial if not loginvalid else None}, status=HTTP_400_BAD_REQUEST)
+        
+
+
+class LoginApiView(APIView):
+    def post(self, request):
+        Response_dict={}
+        username=request.data.get('username')
+        password=request.data.get('password')
+        usertype=request.data.get('Usertype')
+        try:
+            if not username or not password:
+                return Response({'Response': 'Login failed'}, status=HTTP_400_BAD_REQUEST)
+            uname=Logintable.objects.filter(username=username, password=password).first()
+            if not uname:
+                return Response({'Response':'Login failed!'}, status=HTTP_400_BAD_REQUEST)
+            else:
+                Response_dict['message'] = 'Login successful'
+                Response_dict['user_type'] = uname.user_type
+                Response_dict['userid'] = uname.id
+                return Response(Response_dict, status=HTTP_200_OK)
+        except Exception as e:
+            return Response({'Response':'internal server error'}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+
+
+
+
+    
     
     
 
