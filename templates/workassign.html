@@ -3,26 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Assign Work</title>
 </head>
 <body>
-    <table border="1">
-        <tr>
-            <th>pothole</th>
-            <th>contractor</th>
-            <th>description</th>
-            <th>date</th>
-            <th>status</th>
-            
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><button>assign</button></td>
-            <td><a href="#">delete</a></td>
-        </tr>
-    </table>
+    <h2>Assign Work to Contractor</h2>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        
+        <label for="pothole">Select Pothole:</label>
+        <select name="pothole" id="pothole" required>
+            {% for pothole in potholes %}
+                <option value="{{ pothole.id }}">
+                    lat {{ pothole.latitude }} - long {{ pothole.longitude }}
+                </option><br><br>
+            {% endfor %}
+        </select>
+
+        <br><label for="contractor">Select Contractor:</label>
+        <select name="contractor" id="contractor" required>
+            {% for contractor in contractors %}
+                <option value="{{ contractor.id }}">
+                    {{ contractor.name }} - {{ contractor.specialisation }}
+                </option><br>
+            {% endfor %}
+        </select>
+
+       <br> <label for="description">Description:</label>
+        <textarea name="description" id="description" required></textarea>
+
+       <br> <label for="date">Choose Date:</label>
+        <input type="date" name="date" id="date" required>
+
+        <button type="submit">Assign</button>
+    </form>
 </body>
 </html>

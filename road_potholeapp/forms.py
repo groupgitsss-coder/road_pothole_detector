@@ -27,10 +27,10 @@ class Feedbacktable(ModelForm):
         model=Feedbacktable
         fields=['feedback','date','user']
 
-class Workassigntable(ModelForm):
+class workassignform(ModelForm):
     class Meta:
         model=Workassigntable
-        fields=['pothole','contractor','description','date','status']
+        fields=['pothole','contractor','description','date']
 
 class Issuestable(ModelForm):
     class Meta:

@@ -1,12 +1,17 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-
+from django.shortcuts import get_object_or_404
 from road_potholeapp.serializer import Loginserializer, Userserializer
 from road_potholeapp.forms import *
 from road_potholeapp.models import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
+
 
 # Create your views here.
+
 class LoginView(View):
     def get(self,request):
         return render(request, 'login.html')
@@ -14,6 +19,8 @@ class LoginView(View):
         username=request.POST.get('username')
         password=request.POST.get('password')
         obj=Logintable.objects.get(username=username,password=password)
+        request.session['user_id'] = obj.id
+        print(request.session['user_id'])
         if obj.Usertype=='admin':
             return HttpResponse('''<script>alert('login successful');window.location='/adminview'</script>''')
         elif obj.Usertype=='contractor':
@@ -70,12 +77,37 @@ class ComplaintView(View):
         return render(request, 'COMPLAIN.html',{'val': obj})
     
 class WorkassignView(View):
-    def get(self,request):
-        return render(request, 'workassign.html')
+    def get(self, request):
+        potholes = Potholetable.objects.all()
+        print(potholes,'8888888888888')
+        contractors = Contractortable.objects.all()
+        print(contractors,'************')
+        return render(request, 'workassign.html', {
+            'potholes': potholes,
+            'contractors': contractors
+        })
+
+    def post(self, request,):
+        form = workassignform(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.status = "PENDING"
+            f.save()
+           
+        return redirect('workassign')
+class contractorviewwork(View):
+    def get(self, request):
+        obj = Workassigntable.objects.filter(contractor__login_id=request.session['user_id'])
+        return render(request, 'workassigned.html',{"val":obj})
     
-class IssuesView(View):
-    def get(self,request):
-        return render(request, 'issues.html')
+ 
+class UpdateStatus(View):
+    def get(self, request, id):
+        obj = Workassigntable.objects.get(id=id)
+        obj.status = "completed"
+        obj.save()
+        return redirect('contractorviewwork')
+
 
 class AdminhomeView(View):
     def get(self,request):
@@ -135,9 +167,6 @@ class ContractorcomplaintView(View):
     # /////////////////////////////////////////////////////////// API /////////////////////////////////////////////////////////
 
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_401_UNAUTHORIZED
 
 class studentreg(APIView):
     def post(self, request):
