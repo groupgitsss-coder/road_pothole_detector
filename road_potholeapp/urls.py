@@ -40,8 +40,10 @@ urlpatterns = [
     path('EditContractor/<int:id>',EditContractor.as_view(),name='EditContractor'),
     path('contractorhome',ContractorhomeView.as_view(),name='contractorhome'),
     path('Contractorcomplaint',ContractorcomplaintView.as_view(),name='Contractorcomplaint'),
-    
+    ####################################################################################################
 
+    path('studentreg',studentreg.as_view(),name='studentreg'),
+    path('LoginApiView',LoginApiView.as_view(),name='LoginApiView'),
 
 
     

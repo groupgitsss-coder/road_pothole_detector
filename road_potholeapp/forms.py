@@ -10,7 +10,7 @@ class ComplaintForm(ModelForm):
 class Usertable(ModelForm):
     class Meta:
         model=Usertable
-        fields=['name','image','age','gender','email','location','phone','login']
+        fields=['name','image','age','gender','email','latitude','longitude','phone','login']
     
 class Contractorform(ModelForm):
     class Meta:
