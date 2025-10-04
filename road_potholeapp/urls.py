@@ -44,6 +44,7 @@ urlpatterns = [
 
     path('studentreg',studentreg.as_view(),name='studentreg'),
     path('LoginApiView',LoginApiView.as_view(),name='LoginApiView'),
+    path('addfeedback',Addfeedback.as_view(),name='addfeedback'),
 
 
     

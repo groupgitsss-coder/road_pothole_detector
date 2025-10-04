@@ -10,7 +10,7 @@ class Loginserializer(serializers.ModelSerializer):
 class Userserializer(serializers.ModelSerializer):
     class Meta:     
         model=Usertable
-        fields=['name','image','age','gender','email','location','phone','login']
+        fields=['name','image','age','gender','email','latitude','longitude','phone','login']
     
 class Contractorserializer(serializers.ModelSerializer):
     class Meta:

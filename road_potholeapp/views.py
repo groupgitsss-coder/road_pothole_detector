@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.shortcuts import get_object_or_404
-from road_potholeapp.serializer import Loginserializer, Userserializer
+from road_potholeapp.serializer import Feedbackserializer, Loginserializer, Userserializer
 from road_potholeapp.forms import *
 from road_potholeapp.models import *
 from rest_framework.views import APIView
@@ -174,12 +174,12 @@ class studentreg(APIView):
         reg_serial=Userserializer(data=request.data)
         login_serial=Loginserializer(data=request.data)
 
-        regvalid=reg_serial.is_vaqlid()
+        regvalid=reg_serial.is_valid()
         loginvalid=login_serial.is_valid()
 
         if regvalid and loginvalid:
-            login = login_serial.save(user_type='student')
-            reg_serial.save(LOGINID=login)
+            login = login_serial.save(Usertype='student')
+            reg_serial.save(login=login)
             return Response({'message':'Registration successful'}, status=HTTP_200_OK)
         else:
             return Response({'Registration error': reg_serial.errors if not regvalid else None,
@@ -189,10 +189,10 @@ class studentreg(APIView):
 
 class LoginApiView(APIView):
     def post(self, request):
+        print('----------------------------------------------->', request.data)
         Response_dict={}
         username=request.data.get('username')
         password=request.data.get('password')
-        usertype=request.data.get('Usertype')
         try:
             if not username or not password:
                 return Response({'Response': 'Login failed'}, status=HTTP_400_BAD_REQUEST)
@@ -201,7 +201,7 @@ class LoginApiView(APIView):
                 return Response({'Response':'Login failed!'}, status=HTTP_400_BAD_REQUEST)
             else:
                 Response_dict['message'] = 'Login successful'
-                Response_dict['user_type'] = uname.user_type
+                Response_dict['user_type'] = uname.Usertype
                 Response_dict['userid'] = uname.id
                 return Response(Response_dict, status=HTTP_200_OK)
         except Exception as e:
@@ -210,11 +210,29 @@ class LoginApiView(APIView):
 
 
 
+class Addfeedback(APIView):
+    def post(self,request):
+        print("Request data:",request.data)
 
-
-
-
-
+        login_id = request.data.get('USER')
+        if not login_id:
+            return Response({"USER":"Thid field is required"}, status=400)
+        
+        try:
+            user_instance = Usertable.objects.get(LOGIN___id=login_id)
+        except Usertable.DoesnotExists:
+            return Response({"User":"User not found"}, status=404)
+        
+        #Remove USER from request.data because we'll pass instance
+        data=request.data.copy()
+        data.pop('USER,None')
+        serializer=Feedbackserializer(data=data)
+        if serializer.is_valid():
+            serializer.save(USER=user_instance) #assign actual userTable instance
+            return Response(serializer.data, status=HTTP_200_OK)
+        
+        print ("Errors:",serializer.errors)
+        return Response(serializer.errors,status=HTTP_400_BAD_REQUEST)
     
     
     

@@ -12,7 +12,6 @@ class Usertable(models.Model):
     age=models.IntegerField(null=True, blank=True)
     gender=models.CharField(max_length=200, null=True, blank=True)
     email=models.CharField(max_length=200, null=True, blank=True)
-    # location=models.CharField(max_length=200, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     phone=models.BigIntegerField(null=True, blank=True)
